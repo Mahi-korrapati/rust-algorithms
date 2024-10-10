@@ -12,6 +12,7 @@ struct Node {
 pub struct TreeSort;
 
 // Function to create a new BST Node
+// This function returns a reference-counted pointer to a newly created Node wrapped in a RefCell
 fn new_node(key: i32) -> Rc<RefCell<Node>> {
     Rc::new(RefCell::new(Node {
         key,
@@ -20,43 +21,56 @@ fn new_node(key: i32) -> Rc<RefCell<Node>> {
     }))
 }
 
-// Function to insert a new Node with given key in BST
+// Function to insert a new Node with the given key in the BST
+// Recursively finds the correct position for the new key and inserts it
+// If the tree is empty, it creates and returns a new Node
 fn insert(node: &Option<Rc<RefCell<Node>>>, key: i32) -> Option<Rc<RefCell<Node>>> {
     match node {
         Some(current) => {
             let mut current_borrow = current.borrow_mut();
             match key.cmp(&current_borrow.key) {
+                // If the key is less, insert in the left subtree
                 std::cmp::Ordering::Less => {
                     current_borrow.left = insert(&current_borrow.left, key);
                 }
+                // If the key is greater, insert in the right subtree
                 std::cmp::Ordering::Greater => {
                     current_borrow.right = insert(&current_borrow.right, key);
                 }
+                // If the key is equal, do nothing (BST doesn't allow duplicates)
                 std::cmp::Ordering::Equal => {}
             }
             drop(current_borrow);
             Some(Rc::clone(current))
         }
+        // If the node is None, create a new Node with the given key
         None => Some(new_node(key)),
     }
 }
 
-// Function to perform inorder traversal and store in a vector
+// Function to perform an inorder traversal of the BST and store the keys in a vector
+// Inorder traversal ensures that the keys are stored in sorted order
 fn store_sorted(node: &Option<Rc<RefCell<Node>>>, arr: &mut Vec<i32>) {
     if let Some(current) = node {
+        // Traverse the left subtree
         store_sorted(&current.borrow().left, arr);
+        // Store the current node's key
         arr.push(current.borrow().key);
+        // Traverse the right subtree
         store_sorted(&current.borrow().right, arr);
     }
 }
 
 // Function to sort an array using Tree Sort
+// Builds a BST from the array and then performs an inorder traversal to sort it
 fn tree_sort(arr: &mut Vec<i32>) {
     let mut root = None;
+    // Insert all elements of the array into the BST
     for &item in arr.iter() {
         root = insert(&root, item);
     }
-    arr.clear();
+    arr.clear(); // Clear the array to store the sorted elements
+    // Perform an inorder traversal to store sorted elements back in the array
     store_sorted(&root, arr);
 }
 

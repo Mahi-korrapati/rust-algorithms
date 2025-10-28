@@ -1,3 +1,40 @@
+///  **Bucket Sort**
+///
+/// From [Wikipedia](https://en.wikipedia.org/wiki/Bucket_sort):
+/// Bucket sort, or bin sort, is a sorting algorithm that works by distributing
+/// elements into several groups called *buckets*. Each bucket is then sorted individually,
+/// either using a different sorting algorithm (like insertion sort) or by recursively
+/// applying the bucket sort itself.
+///
+/// ---
+///
+/// ### How It Works
+/// 1. **Setup:** Create an array of initially empty buckets.
+/// 2. **Scatter:** Distribute elements from the input array into buckets.
+/// 3. **Sort:** Sort each non-empty bucket (e.g., using insertion sort).
+/// 4. **Gather:** Combine all buckets in order to form the final sorted array.
+///
+/// ---
+///
+/// ###  Complexity
+/// - **Best Case:** `O(n + k)`
+/// - **Average Case:** `O(n + k)`
+/// - **Worst Case:** `O(n²)` (when all elements fall into one bucket)
+/// - **Space Complexity:** `O(n + k)`
+///
+/// ---
+///
+/// ###  When to Use
+/// - When input data is *uniformly distributed* over a known range.
+/// - Works best with floating-point or bounded integer data.
+///
+/// ---
+///
+/// ###  References
+/// - [Wikipedia](https://en.wikipedia.org/wiki/Bucket_sort)
+/// - [GeeksforGeeks](https://www.geeksforgeeks.org/bucket-sort/)
+/// - [TutorialsPoint](https://www.tutorialspoint.com/bucket-sort-in-data-structure)
+///
 use crate::sorting::insertion_sort::InsertionSort;
 use crate::sorting::traits::Sorter;
 

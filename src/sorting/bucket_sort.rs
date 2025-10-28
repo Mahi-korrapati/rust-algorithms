@@ -39,7 +39,7 @@ use crate::sorting::insertion_sort::InsertionSort;
 use crate::sorting::traits::Sorter;
 
 fn bucket_sort<T: Ord + Copy + Into<usize>>(arr: &mut [T]) {
-      if arr.is_empty() {
+    if arr.is_empty() {
         return;
     }
 

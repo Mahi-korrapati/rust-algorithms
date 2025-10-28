@@ -80,3 +80,12 @@ where
         bucket_sort(arr);
     }
 }
+
+#[cfg(test)]
+mod tests {
+    use crate::sorting::traits::Sorter;
+    use crate::sorting::BucketSort;
+
+    sorting_tests!(BucketSort::sort, bucket_sort);
+    sorting_tests!(BucketSort::sort_inplace, bucket_sort, inplace);
+}
